@@ -118,7 +118,7 @@ export default function PatientForm() {
 
                 <div className="mb-5">
                     <label htmlFor="date" className="text-sm uppercase font-bold">
-                        Fecha Alta
+                        Fecha De Alta
                     </label>
                     <input
                         id="date"
