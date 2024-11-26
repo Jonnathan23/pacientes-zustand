@@ -25,10 +25,11 @@ export default function PatientForm() {
 
         if (activeId) {
             updatePatient({ ...data, id: activeId })
+            toast.success('Paciente modificao correctamente')
 
         } else {
             addPatient(data)
-            toast('Paciente Registrado Correctamente')
+            toast.success('Paciente Registrado Correctamente')            
         }
 
         getPatientId('')

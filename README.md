@@ -23,4 +23,14 @@ import { ToastContainer } from "react-toastify"
 
 <ToastContainer />
 
+
+// Utilizar su disparador
+import { toast } from "react-toastify"
+
+toast.success('Paciente Registrado Correctamente')
+
+toast.info('Nueva notificacion')
+
+toast.error('Error al guardar al paciente')
+
 ```
