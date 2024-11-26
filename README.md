@@ -15,3 +15,12 @@ npm i zustand
 ```bash
 npm i react-toastify
 ```
+
+```ts
+import "react-toastify/dist/ReactToastify.css"
+
+import { ToastContainer } from "react-toastify"
+
+<ToastContainer />
+
+```

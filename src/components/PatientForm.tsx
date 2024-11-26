@@ -2,22 +2,44 @@ import { useForm } from "react-hook-form"
 import Error from "./Error"
 import { DraftPatient } from "../types/indext"
 import { usePatientStore } from "../store/store"
+import { useEffect } from "react"
+import { toast } from "react-toastify"
 
 export default function PatientForm() {
 
-    const { addPatient, activeId } = usePatientStore()
-    const { register, handleSubmit, formState: { errors }, reset } = useForm<DraftPatient>()
+    const { addPatient, activeId, patients, updatePatient, getPatientId } = usePatientStore()
+    const { register, handleSubmit, setValue, formState: { errors }, reset } = useForm<DraftPatient>()
+
+    useEffect(() => {
+        if (activeId) {
+            const activePatient = patients.filter(patient => patient.id === activeId)[0]
+            setValue('name', activePatient.name)
+            setValue('caretaker', activePatient.caretaker)
+            setValue('email', activePatient.email)
+            setValue('date', activePatient.date)
+            setValue('symptoms', activePatient.symptoms)
+        }
+    }, [activeId])
 
     const registerPatient = (data: DraftPatient) => {
-        addPatient(data)
+
+        if (activeId) {
+            updatePatient({ ...data, id: activeId })
+
+        } else {
+            addPatient(data)
+            toast('Paciente Registrado Correctamente')
+        }
+
+        getPatientId('')
         reset()
     }
 
-    
+
 
     return (
         <div className="md:w-1/2 lg:w-2/5 mx-5">
-            <h2 className="font-black text-3xl text-center">Seguimiento Pacientes {activeId}</h2>
+            <h2 className="font-black text-3xl text-center">Seguimiento Pacientes</h2>
 
             <p className="text-lg mt-5 text-center mb-10">
                 Añade Pacientes y {''}
@@ -134,7 +156,7 @@ export default function PatientForm() {
                 <input
                     type="submit"
                     className="bg-indigo-600 w-full p-3 text-white uppercase font-bold hover:bg-indigo-700 cursor-pointer transition-colors"
-                    value='Guardar Paciente'
+                    value={activeId ? 'Guardar cambios' : 'Guardar Paciente'}
                 />
             </form>
         </div>
