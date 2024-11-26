@@ -1,4 +1,5 @@
 import { usePatientStore } from "../store/store"
+import PatientDetails from "./PatientDetails"
 
 export default function PatientsList() {
     const { patients } = usePatientStore()
@@ -9,9 +10,16 @@ export default function PatientsList() {
                 <>
                     <h2 className="font-black text-3xl text-center">Listado de pacientes</h2>
                     <p className="text-xl mt-5 mb-10 text-center">
-Administra tus {' '}
-<span className="text-indigo-600">Pacientes y Citas</span>
+                        Administra tus {' '}
+                        <span className="text-indigo-600">Pacientes y Citas</span>
                     </p>
+                    {patients.map(patient => (
+                        <PatientDetails
+                            key={patient.id}
+                            patient={patient}
+                        />
+                    ))
+                    }
                 </>
             ) : (
                 <>

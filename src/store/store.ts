@@ -1,14 +1,19 @@
 import { create } from "zustand";
 import { DraftPatient, Patient } from "../types/indext";
+import { devtools } from "zustand/middleware";
 //TODO: import {v4 as uuidv4} from 'uuid'
 type PatientSate = {
     patients: Patient[]
+    activeId: Patient['id']
     addPatient: (data: DraftPatient) => void
+    deletePatient: (id: Patient['id']) => void
+    getPatientId: (id: Patient['id']) => void
 }
 
 const createPatient = (patient: DraftPatient): Patient => {
     return {
-        ...patient, id: 'ss' //TODO: uuidv4()
+        //TODO: ...patient, id: uuidv4()
+        ...patient, id: newId()
     }
 }
 
@@ -17,12 +22,33 @@ const createPatient = (patient: DraftPatient): Patient => {
  * * npm i uuid
  * * npm i --save-dev @types/uuid
  */
-export const usePatientStore = create<PatientSate>((set) => ({
+export const usePatientStore = create<PatientSate>()(devtools((set) => ({
     patients: [],
+    activeId: '',
+
     addPatient: (data) => {
         const newPatient = createPatient(data)
         set((state) => ({
             patients: [...state.patients, newPatient]
         }))
+    },
+
+    deletePatient: (id) => {
+        set((state) => ({
+            patients: state.patients.filter((patient) => patient.id !== id)
+        }))
+    },
+
+    getPatientId: (id) => {
+        set(() => ({
+            activeId: id
+        }))
     }
-}))
+})))
+
+//TODO: Borrar esta funcion
+let inicialId = 'dsa'
+const newId = () => {
+    inicialId += 'aa'
+    return inicialId
+}
